@@ -5,14 +5,16 @@ axios({
 })
 
     .then(response => {
-      console.log("We have datas")
+      console.log("We have datas", response)
+      console.log(response.data.bpi)
+
     })
     .catch(err => {
       console.log("Miss of datas")
     });
 
  
-    function printTheChart(stockData) {
+    /*function printTheChart(stockData) {
         const dailyData = stockData['bpi'];
        
         const stockValues = Object.keys(dailyData);
@@ -33,4 +35,5 @@ axios({
             ]
           }
         }); // closes chart = new Chart()
-      } // closes printTheChart()
+      } // closes printTheChart()*/
+
