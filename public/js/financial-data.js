@@ -1,3 +1,5 @@
+const ctx = document.querySelector("#my-chart").getContext('2d');
+
 axios({
     method: 'GET',
     url: 'http://api.coindesk.com/v1/bpi/historical/close.json',
@@ -7,6 +9,25 @@ axios({
     .then(response => {
       console.log("We have datas", response)
       console.log(response.data.bpi)
+
+      /*const labels = object.key(bpi).forEach([0] => {
+        console.log(bpi, bpi[0]);
+      })
+      const arr = bpi[0].forEach(bpi[1])*/
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+              label: 'My First Dataset',
+              data: arr,
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            }]
+          },
+      })
 
     })
     .catch(err => {
