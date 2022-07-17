@@ -5,16 +5,17 @@ const fromDateValue = fromDate.value // la value d'un input "date" renvoie YYYY-
 const toDateValue = toDate.value
 const currency = document.querySelector('#currency')
 const currencyValue = currency.value // défilement de toutes les values mises dans <select></select>
+const btcChart = 
 
-console.log(fromDate)
-console.log(toDate)
+console.log(fromDateValue)
+console.log(toDateValue)
 
 
 axios({
     method: 'GET',
     url: `http://api.coindesk.com/v1/bpi/historical/close.json?start=${fromDateValue}&end=${toDateValue}&currency=${currencyValue}`,
-    /*params: {start : `${fromDateValue}`, end : `${toDateValue}`}*/
-    params: {start : `2021-10-10`, end : `2022-10-10`} // a modifier en trouvant le bonne formule pour changer les dates
+    params: {start : `${fromDateValue}`, end : `${toDateValue}`}
+    /*params: {start : `2021-10-10`, end : `2022-10-10`, currency : `GBP`}*/
 })
 
     .then(response => {
@@ -25,7 +26,7 @@ axios({
       const labels = Object.keys(response.data.bpi) // je fais appel sur l'axe "x" des valeurs de ma data
       const arr = Object.values(response.data.bpi) // je fais appel sur l'axe "y" des valeurs de ma data
 
-      new Chart(ctx, {
+      const myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -39,20 +40,23 @@ axios({
           },
       })
 
-      fromDate.addEventListener('newDate', () => {
-        /*start = fromDateValue*/
-        return window.location.reload()
+
+      fromDate.addEventListener('change', () => {
+        /*myChart.data.labels = fromDateValue.target.value;*/
+        myChart.update()
       })
-      toDate.addEventListener('newDate', () => {
-        /*end = toDateValue*/
-        return window.location.reload()
+      toDate.addEventListener('change', () => {
+        /*myChart.data.label = toDateValue.target.value;*/
+        myChart.update()
       })
 
 
-    min.innerHTML=Math.min(...Object.values(response.data.bpi))
-    max.innerHTML=Math.max(...Object.values(response.data.bpi)) /// ... de Math.min pour array et liste d'objet
+      min.innerHTML=Math.min(...Object.values(response.data.bpi))
+      max.innerHTML=Math.max(...Object.values(response.data.bpi)) /// ... de Math.min pour array et liste d'objet
+
 
     })
     .catch(err => {
       console.log("Miss of datas")
     });
+
